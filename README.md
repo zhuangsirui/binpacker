@@ -1,6 +1,8 @@
 # binpacker [![Build Status](https://travis-ci.org/zhuangsirui/binpacker.svg?branch=master)](https://travis-ci.org/zhuangsirui/binpacker)
 A binary packer and unpacker.
 
+API docs: [https://godoc.org/github.com/zhuangsirui/binpacker](https://godoc.org/github.com/zhuangsirui/binpacker)
+
 # Install
 
 ```bash
