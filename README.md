@@ -24,9 +24,8 @@ packer.PushUint16(math.MaxUint16)
 buffer := new(bytes.Buffer)
 packer := binpacker.NewPacker(buffer)
 packer.PushByte(0x01).PushBytes([]byte{0x02, 0x03}).PushUint16(math.MaxUint16)
+packer.Error() // Make sure error is nil
 ```
-
-**Remember handle `packer.Error()`!**
 
 ## Unpacker
 
