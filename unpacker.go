@@ -60,9 +60,8 @@ func (u *Unpacker) ShiftUint16() (uint16, error) {
 	buffer := make([]byte, 2)
 	if _, err := u.reader.Read(buffer); err != nil {
 		return 0, err
-	} else {
-		return u.endian.Uint16(buffer), nil
 	}
+	return u.endian.Uint16(buffer), nil
 }
 
 // ReadUint16 read 2 bytes, convert it to uint16 and set it to i.
@@ -77,9 +76,8 @@ func (u *Unpacker) ShiftUint32() (uint32, error) {
 	buffer := make([]byte, 4)
 	if _, err := u.reader.Read(buffer); err != nil {
 		return 0, err
-	} else {
-		return u.endian.Uint32(buffer), nil
 	}
+	return u.endian.Uint32(buffer), nil
 }
 
 // ReadUint32 read 4 bytes, convert it to uint32 and set it to i.
@@ -94,9 +92,8 @@ func (u *Unpacker) ShiftUint64() (uint64, error) {
 	buffer := make([]byte, 8)
 	if _, err := u.reader.Read(buffer); err != nil {
 		return 0, err
-	} else {
-		return u.endian.Uint64(buffer), nil
 	}
+	return u.endian.Uint64(buffer), nil
 }
 
 // ReadUint64 read 8 bytes, convert it to uint64 and set it to i.
@@ -111,9 +108,8 @@ func (u *Unpacker) ShiftString(n uint64) (string, error) {
 	buffer := make([]byte, n)
 	if _, err := u.reader.Read(buffer); err != nil {
 		return "", err
-	} else {
-		return string(buffer), nil
 	}
+	return string(buffer), nil
 }
 
 // ReadString read n bytes, convert it to string and set t to s.
