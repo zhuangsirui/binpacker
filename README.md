@@ -26,11 +26,11 @@ packer := binpacker.NewPacker(buffer)
 packer.PushByte(0x01).PushBytes([]byte{0x02, 0x03}).PushUint16(math.MaxUint16)
 ```
 
-*Remember handle `packer.Error()`!*
+**Remember handle `packer.Error()`!**
 
 ## Unpacker
 
-*Example data*
+**Example data**
 
 ```go
 buffer := new(bytes.Buffer)
@@ -52,6 +52,6 @@ val2, err = unpacker.ShiftUint16()
 var val1 byte
 var val2 uint16
 var err error
-unpacker.ReadByte(&val1).ReadUint16(val2)
+unpacker.ReadByte(&val1).ReadUint16(&val2)
 unpacker.Error() // Make sure error is nil
 ```
