@@ -33,8 +33,8 @@ func (u *Unpacker) ShiftByte() (byte, error) {
 	return buffer[0], err
 }
 
-// ReadByte fetch the first byte in io.Reader and set to b.
-func (u *Unpacker) ReadByte(b *byte) *Unpacker {
+// FetchByte fetch the first byte in io.Reader and set to b.
+func (u *Unpacker) FetchByte(b *byte) *Unpacker {
 	return u.errFilter(func() {
 		*b, u.err = u.ShiftByte()
 	})
@@ -48,8 +48,8 @@ func (u *Unpacker) ShiftBytes(n uint64) ([]byte, error) {
 	return buffer, err
 }
 
-// ReadBytes read n bytes and set to bytes.
-func (u *Unpacker) ReadBytes(n uint64, bytes *[]byte) *Unpacker {
+// FetchBytes read n bytes and set to bytes.
+func (u *Unpacker) FetchBytes(n uint64, bytes *[]byte) *Unpacker {
 	return u.errFilter(func() {
 		*bytes, u.err = u.ShiftBytes(n)
 	})
@@ -64,8 +64,8 @@ func (u *Unpacker) ShiftUint16() (uint16, error) {
 	return u.endian.Uint16(buffer), nil
 }
 
-// ReadUint16 read 2 bytes, convert it to uint16 and set it to i.
-func (u *Unpacker) ReadUint16(i *uint16) *Unpacker {
+// FetchUint16 read 2 bytes, convert it to uint16 and set it to i.
+func (u *Unpacker) FetchUint16(i *uint16) *Unpacker {
 	return u.errFilter(func() {
 		*i, u.err = u.ShiftUint16()
 	})
@@ -80,8 +80,8 @@ func (u *Unpacker) ShiftUint32() (uint32, error) {
 	return u.endian.Uint32(buffer), nil
 }
 
-// ReadUint32 read 4 bytes, convert it to uint32 and set it to i.
-func (u *Unpacker) ReadUint32(i *uint32) *Unpacker {
+// FetchUint32 read 4 bytes, convert it to uint32 and set it to i.
+func (u *Unpacker) FetchUint32(i *uint32) *Unpacker {
 	return u.errFilter(func() {
 		*i, u.err = u.ShiftUint32()
 	})
@@ -96,8 +96,8 @@ func (u *Unpacker) ShiftUint64() (uint64, error) {
 	return u.endian.Uint64(buffer), nil
 }
 
-// ReadUint64 read 8 bytes, convert it to uint64 and set it to i.
-func (u *Unpacker) ReadUint64(i *uint64) *Unpacker {
+// FetchUint64 read 8 bytes, convert it to uint64 and set it to i.
+func (u *Unpacker) FetchUint64(i *uint64) *Unpacker {
 	return u.errFilter(func() {
 		*i, u.err = u.ShiftUint64()
 	})
@@ -112,8 +112,8 @@ func (u *Unpacker) ShiftString(n uint64) (string, error) {
 	return string(buffer), nil
 }
 
-// ReadString read n bytes, convert it to string and set t to s.
-func (u *Unpacker) ReadString(n uint64, s *string) *Unpacker {
+// FetchString read n bytes, convert it to string and set t to s.
+func (u *Unpacker) FetchString(n uint64, s *string) *Unpacker {
 	return u.errFilter(func() {
 		*s, u.err = u.ShiftString(n)
 	})
@@ -125,7 +125,7 @@ func (u *Unpacker) StringWithUint16Perfix(s *string) *Unpacker {
 	return u.errFilter(func() {
 		var n uint16
 		n, u.err = u.ShiftUint16()
-		u.ReadString(uint64(n), s)
+		u.FetchString(uint64(n), s)
 	})
 }
 
@@ -135,7 +135,7 @@ func (u *Unpacker) StringWithUint32Perfix(s *string) *Unpacker {
 	return u.errFilter(func() {
 		var n uint32
 		n, u.err = u.ShiftUint32()
-		u.ReadString(uint64(n), s)
+		u.FetchString(uint64(n), s)
 	})
 }
 
@@ -145,7 +145,7 @@ func (u *Unpacker) StringWithUint64Perfix(s *string) *Unpacker {
 	return u.errFilter(func() {
 		var n uint64
 		n, u.err = u.ShiftUint64()
-		u.ReadString(n, s)
+		u.FetchString(n, s)
 	})
 }
 
@@ -155,7 +155,7 @@ func (u *Unpacker) BytesWithUint16Perfix(bytes *[]byte) *Unpacker {
 	return u.errFilter(func() {
 		var n uint16
 		n, u.err = u.ShiftUint16()
-		u.ReadBytes(uint64(n), bytes)
+		u.FetchBytes(uint64(n), bytes)
 	})
 }
 
@@ -165,7 +165,7 @@ func (u *Unpacker) BytesWithUint32Perfix(bytes *[]byte) *Unpacker {
 	return u.errFilter(func() {
 		var n uint32
 		n, u.err = u.ShiftUint32()
-		u.ReadBytes(uint64(n), bytes)
+		u.FetchBytes(uint64(n), bytes)
 	})
 }
 
@@ -175,7 +175,7 @@ func (u *Unpacker) BytesWithUint64Perfix(bytes *[]byte) *Unpacker {
 	return u.errFilter(func() {
 		var n uint64
 		n, u.err = u.ShiftUint64()
-		u.ReadBytes(n, bytes)
+		u.FetchBytes(n, bytes)
 	})
 }
 

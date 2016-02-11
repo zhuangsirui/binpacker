@@ -83,12 +83,12 @@ func TestRead(t *testing.T) {
 	var i32 uint32
 	var i64 uint64
 	var s string
-	u.ReadByte(&b).
-		ReadBytes(2, &bs).
-		ReadUint16(&i16).
-		ReadUint32(&i32).
-		ReadUint64(&i64).
-		ReadString(2, &s)
+	u.FetchByte(&b).
+		FetchBytes(2, &bs).
+		FetchUint16(&i16).
+		FetchUint32(&i32).
+		FetchUint64(&i64).
+		FetchString(2, &s)
 	assert.Equal(t, u.err, nil, "Has Error.")
 	assert.Equal(t, u.Error(), nil, "Has Error.")
 	assert.Equal(t, b, byte(0x01), "byte error.")
