@@ -51,6 +51,6 @@ val2, err = unpacker.ShiftUint16()
 var val1 byte
 var val2 uint16
 var err error
-unpacker.ReadByte(&val1).ReadUint16(&val2)
+unpacker.FetchByte(&val1).FetchUint16(&val2)
 unpacker.Error() // Make sure error is nil
 ```
