@@ -1,4 +1,4 @@
-# binpacker [![Build Status](https://travis-ci.org/zhuangsirui/binpacker.svg?branch=master)](https://travis-ci.org/zhuangsirui/binpacker) [![GoDoc](https://godoc.org/github.com/zhuangsirui/binpacker?status.svg)](https://godoc.org/github.com/zhuangsirui/binpacker)
+# binpacker [![Build Status](https://travis-ci.org/zhuangsirui/binpacker.svg?branch=master)](https://travis-ci.org/zhuangsirui/binpacker) [![GoDoc](https://godoc.org/github.com/zhuangsirui/binpacker?status.svg)](https://godoc.org/github.com/zhuangsirui/binpacker) [![Go Report Card](https://goreportcard.com/badge/github.com/zhuangsirui/binpacker)](https://goreportcard.com/report/github.com/zhuangsirui/binpacker)
 A binary packer and unpacker.
 
 # Install
