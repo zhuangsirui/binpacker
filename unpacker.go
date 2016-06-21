@@ -3,6 +3,7 @@ package binpacker
 import (
 	"encoding/binary"
 	"io"
+	"unsafe"
 )
 
 // Unpacker helps you unpack binary data from an io.Reader.
@@ -71,6 +72,17 @@ func (u *Unpacker) FetchUint16(i *uint16) *Unpacker {
 	})
 }
 
+// ShiftInt16 fetch 2 bytes in io.Reader and convert it to int16.
+func (u *Unpacker) ShiftInt16() (int16, error) {
+	i, err := u.ShiftUint16()
+	return int16(i), err
+}
+
+// FetchInt16 read 2 bytes, convert it to int16 and set it to i.
+func (u *Unpacker) FetchInt16(i *int16) *Unpacker {
+	return u.FetchUint16((*uint16)(unsafe.Pointer(i)))
+}
+
 // ShiftUint32 fetch 4 bytes in io.Reader and convert it to uint32.
 func (u *Unpacker) ShiftUint32() (uint32, error) {
 	buffer := make([]byte, 4)
@@ -80,11 +92,22 @@ func (u *Unpacker) ShiftUint32() (uint32, error) {
 	return u.endian.Uint32(buffer), nil
 }
 
+// ShiftInt32 fetch 4 bytes in io.Reader and convert it to int32.
+func (u *Unpacker) ShiftInt32() (int32, error) {
+	i, err := u.ShiftUint32()
+	return int32(i), err
+}
+
 // FetchUint32 read 4 bytes, convert it to uint32 and set it to i.
 func (u *Unpacker) FetchUint32(i *uint32) *Unpacker {
 	return u.errFilter(func() {
 		*i, u.err = u.ShiftUint32()
 	})
+}
+
+// FetchInt32 read 4 bytes, convert it to int32 and set it to i.
+func (u *Unpacker) FetchInt32(i *int32) *Unpacker {
+	return u.FetchUint32((*uint32)(unsafe.Pointer(i)))
 }
 
 // ShiftUint64 fetch 8 bytes in io.Reader and convert it to uint64.
@@ -96,11 +119,22 @@ func (u *Unpacker) ShiftUint64() (uint64, error) {
 	return u.endian.Uint64(buffer), nil
 }
 
+// ShiftInt64 fetch 8 bytes in io.Reader and convert it to int64.
+func (u *Unpacker) ShiftInt64() (int64, error) {
+	i, err := u.ShiftUint64()
+	return int64(i), err
+}
+
 // FetchUint64 read 8 bytes, convert it to uint64 and set it to i.
 func (u *Unpacker) FetchUint64(i *uint64) *Unpacker {
 	return u.errFilter(func() {
 		*i, u.err = u.ShiftUint64()
 	})
+}
+
+// FetchInt64 read 8 bytes, convert it to int64 and set it to i.
+func (u *Unpacker) FetchInt64(i *int64) *Unpacker {
+	return u.FetchUint64((*uint64)(unsafe.Pointer(i)))
 }
 
 // ShiftString fetch n bytes, convert it to string. Returns string and an error.

@@ -48,6 +48,11 @@ func (p *Packer) PushUint16(i uint16) *Packer {
 	})
 }
 
+// PushUint16 write a int16 into writer.
+func (p *Packer) PushInt16(i int16) *Packer {
+	return p.PushUint16(uint16(i))
+}
+
 // PushUint32 write a uint32 into writer.
 func (p *Packer) PushUint32(i uint32) *Packer {
 	return p.errFilter(func() {
@@ -57,6 +62,11 @@ func (p *Packer) PushUint32(i uint32) *Packer {
 	})
 }
 
+// PushInt32 write a int32 into writer.
+func (p *Packer) PushInt32(i int32) *Packer {
+	return p.PushUint32(uint32(i))
+}
+
 // PushUint64 write a uint64 into writer.
 func (p *Packer) PushUint64(i uint64) *Packer {
 	return p.errFilter(func() {
@@ -64,6 +74,11 @@ func (p *Packer) PushUint64(i uint64) *Packer {
 		p.endian.PutUint64(buffer, i)
 		_, p.err = p.writer.Write(buffer)
 	})
+}
+
+// PushInt64 write a int64 into writer.
+func (p *Packer) PushInt64(i int64) *Packer {
+	return p.PushUint64(uint64(i))
 }
 
 // PushString write a string into writer.

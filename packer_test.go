@@ -31,6 +31,14 @@ func TestPushUint16(t *testing.T) {
 	assert.Equal(t, b.Bytes(), []byte{1, 0}, "uint16 error.")
 }
 
+func TestPushInt16(t *testing.T) {
+	b := new(bytes.Buffer)
+	p := NewPacker(b)
+	p.PushInt16(-1)
+	assert.Equal(t, p.Error(), nil, "Has error.")
+	assert.Equal(t, b.Bytes(), []byte{255, 255}, "uint16 error.") // -1 eq 255 255
+}
+
 func TestPushUint32(t *testing.T) {
 	b := new(bytes.Buffer)
 	p := NewPacker(b)
@@ -39,12 +47,28 @@ func TestPushUint32(t *testing.T) {
 	assert.Equal(t, b.Bytes(), []byte{1, 0, 0, 0}, "uint32 error.")
 }
 
+func TestPushInt32(t *testing.T) {
+	b := new(bytes.Buffer)
+	p := NewPacker(b)
+	p.PushInt32(-1)
+	assert.Equal(t, p.Error(), nil, "Has error.")
+	assert.Equal(t, b.Bytes(), []byte{255, 255, 255, 255}, "int32 error.")
+}
+
 func TestPushUint64(t *testing.T) {
 	b := new(bytes.Buffer)
 	p := NewPacker(b)
 	p.PushUint64(1)
 	assert.Equal(t, p.Error(), nil, "Has error.")
 	assert.Equal(t, b.Bytes(), []byte{1, 0, 0, 0, 0, 0, 0, 0}, "uint64 error.")
+}
+
+func TestPushInt64(t *testing.T) {
+	b := new(bytes.Buffer)
+	p := NewPacker(b)
+	p.PushInt64(-1)
+	assert.Equal(t, p.Error(), nil, "Has error.")
+	assert.Equal(t, b.Bytes(), []byte{255, 255, 255, 255, 255, 255, 255, 255}, "int64 error.")
 }
 
 func TestPushString(t *testing.T) {
