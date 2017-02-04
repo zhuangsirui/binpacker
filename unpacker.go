@@ -5,6 +5,7 @@ import (
 	"encoding/binary"
 	"io"
 	"unsafe"
+	"math"
 )
 
 // Unpacker helps you unpack binary data from an io.Reader.
@@ -160,6 +161,38 @@ func (u *Unpacker) FetchUint64(i *uint64) *Unpacker {
 // FetchInt64 read 8 bytes, convert it to int64 and set it to i.
 func (u *Unpacker) FetchInt64(i *int64) *Unpacker {
 	return u.FetchUint64((*uint64)(unsafe.Pointer(i)))
+}
+
+// ShiftFloat32 fetch 4 bytes in io.Reader and convert it to float32.
+func (u *Unpacker) ShiftFloat32() (float32, error) {
+	buffer := make([]byte, 4)
+	if _, err := u.reader.Read(buffer); err != nil {
+		return 0, err
+	}
+	return math.Float32frombits(u.endian.Uint32(buffer)), nil
+}
+
+// ShiftFloat64 fetch 8 bytes in io.Reader and convert it to float64.
+func (u *Unpacker) ShiftFloat64() (float64, error) {
+	buffer := make([]byte, 8)
+	if _, err := u.reader.Read(buffer); err != nil {
+		return 0, err
+	}
+	return math.Float64frombits(u.endian.Uint64(buffer)), nil
+}
+
+// FetchFloat32 read 4 bytes, convert it to float32 and set it to i.
+func (u *Unpacker) FetchFloat32(i *float32) *Unpacker {
+	return u.errFilter(func() {
+		*i, u.err = u.ShiftFloat32()
+	})
+}
+
+// FetchFloat64 read 8 bytes, convert it to float64 and set it to i.
+func (u *Unpacker) FetchFloat64(i *float64) *Unpacker {
+	return u.errFilter(func() {
+		*i, u.err = u.ShiftFloat64()
+	})
 }
 
 // ShiftString fetch n bytes, convert it to string. Returns string and an error.

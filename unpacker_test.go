@@ -5,6 +5,7 @@ import (
 	"testing"
 
 	"github.com/stretchr/testify/assert"
+	"math"
 )
 
 func TestShiftByte(t *testing.T) {
@@ -75,6 +76,51 @@ func TestShiftUint64(t *testing.T) {
 	i, err := u.ShiftUint64()
 	assert.Equal(t, err, nil, "Has error.")
 	assert.Equal(t, i, uint64(1), "uint64 error.")
+}
+
+func TestShiftFloat32(t *testing.T) {
+	buf := new(bytes.Buffer)
+	p := NewPacker(buf)
+	u := NewUnpacker(buf)
+	p.PushFloat32(math.SmallestNonzeroFloat32)
+	i, err := u.ShiftFloat32()
+	assert.Equal(t, err, nil, "Has error.")
+	// without explicit float32() conversion
+	// reflect convert math.SmallestNonzeroFloat32 to float64
+	// what is 0.0000000000000000000000000000000000000000000014012984643248170709237295832899161312802619418765157718
+	// instead 0.000000000000000000000000000000000000000000001
+	assert.Equal(t, i, float32(math.SmallestNonzeroFloat32), "float32 error.")
+}
+
+func TestShiftFloat64(t *testing.T) {
+	buf := new(bytes.Buffer)
+	p := NewPacker(buf)
+	u := NewUnpacker(buf)
+	p.PushFloat64(math.SmallestNonzeroFloat64)
+	i, err := u.ShiftFloat64()
+	assert.Equal(t, err, nil, "Has error.")
+	assert.Equal(t, i, math.SmallestNonzeroFloat64, "float64 error.")
+}
+
+
+func TestFetchFloat32(t *testing.T) {
+	buf := new(bytes.Buffer)
+	p := NewPacker(buf)
+	u := NewUnpacker(buf)
+	p.PushFloat32(math.SmallestNonzeroFloat32)
+	var f float32
+	u.FetchFloat32(&f)
+	assert.Equal(t, f, float32(math.SmallestNonzeroFloat32), "float32 error.")
+}
+
+func TestFetchFloat64(t *testing.T) {
+	buf := new(bytes.Buffer)
+	p := NewPacker(buf)
+	u := NewUnpacker(buf)
+	p.PushFloat64(math.SmallestNonzeroFloat64)
+	var f float64
+	u.FetchFloat64(&f)
+	assert.Equal(t, f, math.SmallestNonzeroFloat64, "float64 error.")
 }
 
 func TestShiftInt64(t *testing.T) {

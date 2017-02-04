@@ -5,6 +5,7 @@ import (
 	"testing"
 
 	"github.com/stretchr/testify/assert"
+	"math"
 )
 
 func TestPushByte(t *testing.T) {
@@ -69,6 +70,22 @@ func TestPushInt64(t *testing.T) {
 	p.PushInt64(-1)
 	assert.Equal(t, p.Error(), nil, "Has error.")
 	assert.Equal(t, b.Bytes(), []byte{255, 255, 255, 255, 255, 255, 255, 255}, "int64 error.")
+}
+
+func TestPushFloat32(t *testing.T) {
+	b := new(bytes.Buffer)
+	p := NewPacker(b)
+	p.PushFloat32(math.SmallestNonzeroFloat32)
+	assert.Equal(t, p.Error(), nil, "Has error.")
+	assert.Equal(t, b.Bytes(), []byte{1, 0, 0, 0}, "float32 error.")
+}
+
+func TestPushFloat64(t *testing.T) {
+	b := new(bytes.Buffer)
+	p := NewPacker(b)
+	p.PushFloat64(math.SmallestNonzeroFloat64)
+	assert.Equal(t, p.Error(), nil, "Has error.")
+	assert.Equal(t, b.Bytes(), []byte{1, 0, 0, 0, 0, 0, 0, 0}, "float64 error.")
 }
 
 func TestPushString(t *testing.T) {

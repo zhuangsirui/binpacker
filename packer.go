@@ -3,6 +3,7 @@ package binpacker
 import (
 	"encoding/binary"
 	"io"
+	"math"
 )
 
 // Packer is a binary packer helps you pack data into an io.Writer.
@@ -79,6 +80,16 @@ func (p *Packer) PushUint64(i uint64) *Packer {
 // PushInt64 write a int64 into writer.
 func (p *Packer) PushInt64(i int64) *Packer {
 	return p.PushUint64(uint64(i))
+}
+
+// PushFloat32 write a float32 into writer.
+func (p *Packer) PushFloat32(i float32) *Packer {
+	return p.PushUint32(math.Float32bits(i))
+}
+
+// PushFloat64 write a float64 into writer.
+func (p *Packer) PushFloat64(i float64) *Packer {
+	return p.PushUint64(math.Float64bits(i))
 }
 
 // PushString write a string into writer.
