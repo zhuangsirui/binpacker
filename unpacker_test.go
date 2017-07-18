@@ -4,8 +4,9 @@ import (
 	"bytes"
 	"testing"
 
-	"github.com/stretchr/testify/assert"
 	"math"
+
+	"github.com/stretchr/testify/assert"
 )
 
 func TestShiftByte(t *testing.T) {
@@ -102,7 +103,6 @@ func TestShiftFloat64(t *testing.T) {
 	assert.Equal(t, i, math.SmallestNonzeroFloat64, "float64 error.")
 }
 
-
 func TestFetchFloat32(t *testing.T) {
 	buf := new(bytes.Buffer)
 	p := NewPacker(buf)
@@ -197,27 +197,27 @@ func TestReadWithPerfix(t *testing.T) {
 	p.PushUint16(2)
 	p.PushBytes([]byte("Hi"))
 	u.BytesWithUint16Perfix(&bs)
-	assert.Equal(t, bs, []byte("Hi"), "Bytes with perfix error.")
+	assert.Equal(t, bs, []byte("Hi"), "Bytes with prefixes error.")
 	p.PushUint16(2)
 	p.PushString("Hi")
 	u.StringWithUint16Perfix(&s)
-	assert.Equal(t, s, "Hi", "String with perfix error.")
+	assert.Equal(t, s, "Hi", "String with prefixes error.")
 
 	p.PushUint32(2)
 	p.PushBytes([]byte("Hi"))
 	u.BytesWithUint32Perfix(&bs)
-	assert.Equal(t, bs, []byte("Hi"), "Bytes with perfix error.")
+	assert.Equal(t, bs, []byte("Hi"), "Bytes with prefixes error.")
 	p.PushUint32(2)
 	p.PushString("Hi")
 	u.StringWithUint32Perfix(&s)
-	assert.Equal(t, s, "Hi", "String with perfix error.")
+	assert.Equal(t, s, "Hi", "String with prefixes error.")
 
 	p.PushUint64(2)
 	p.PushBytes([]byte("Hi"))
 	u.BytesWithUint64Perfix(&bs)
-	assert.Equal(t, bs, []byte("Hi"), "Bytes with perfix error.")
+	assert.Equal(t, bs, []byte("Hi"), "Bytes with prefixes error.")
 	p.PushUint64(2)
 	p.PushString("Hi")
 	u.StringWithUint64Perfix(&s)
-	assert.Equal(t, s, "Hi", "String with perfix error.")
+	assert.Equal(t, s, "Hi", "String with prefixes error.")
 }
