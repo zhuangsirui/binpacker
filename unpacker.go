@@ -3,9 +3,10 @@ package binpacker
 import (
 	"bytes"
 	"encoding/binary"
+	"fmt"
 	"io"
-	"unsafe"
 	"math"
+	"unsafe"
 )
 
 // Unpacker helps you unpack binary data from an io.Reader.
@@ -211,9 +212,9 @@ func (u *Unpacker) FetchString(n uint64, s *string) *Unpacker {
 	})
 }
 
-// StringWithUint16Perfix read 2 bytes as string length, then read N bytes,
+// StringWithUint16Prefix read 2 bytes as string length, then read N bytes,
 // convert it to string and set it to s.
-func (u *Unpacker) StringWithUint16Perfix(s *string) *Unpacker {
+func (u *Unpacker) StringWithUint16Prefix(s *string) *Unpacker {
 	return u.errFilter(func() {
 		var n uint16
 		n, u.err = u.ShiftUint16()
@@ -221,9 +222,9 @@ func (u *Unpacker) StringWithUint16Perfix(s *string) *Unpacker {
 	})
 }
 
-// StringWithUint32Perfix read 4 bytes as string length, then read N bytes,
+// StringWithUint32Prefix read 4 bytes as string length, then read N bytes,
 // convert it to string and set it to s.
-func (u *Unpacker) StringWithUint32Perfix(s *string) *Unpacker {
+func (u *Unpacker) StringWithUint32Prefix(s *string) *Unpacker {
 	return u.errFilter(func() {
 		var n uint32
 		n, u.err = u.ShiftUint32()
@@ -231,9 +232,9 @@ func (u *Unpacker) StringWithUint32Perfix(s *string) *Unpacker {
 	})
 }
 
-// StringWithUint64Perfix read 8 bytes as string length, then read N bytes,
+// StringWithUint64Prefix read 8 bytes as string length, then read N bytes,
 // convert it to string and set it to s.
-func (u *Unpacker) StringWithUint64Perfix(s *string) *Unpacker {
+func (u *Unpacker) StringWithUint64Prefix(s *string) *Unpacker {
 	return u.errFilter(func() {
 		var n uint64
 		n, u.err = u.ShiftUint64()
@@ -241,9 +242,9 @@ func (u *Unpacker) StringWithUint64Perfix(s *string) *Unpacker {
 	})
 }
 
-// BytesWithUint16Perfix read 2 bytes as bytes length, then read N bytes and set
+// BytesWithUint16Prefix read 2 bytes as bytes length, then read N bytes and set
 // it to bytes.
-func (u *Unpacker) BytesWithUint16Perfix(bytes *[]byte) *Unpacker {
+func (u *Unpacker) BytesWithUint16Prefix(bytes *[]byte) *Unpacker {
 	return u.errFilter(func() {
 		var n uint16
 		n, u.err = u.ShiftUint16()
@@ -251,9 +252,9 @@ func (u *Unpacker) BytesWithUint16Perfix(bytes *[]byte) *Unpacker {
 	})
 }
 
-// BytesWithUint32Perfix read 4 bytes as bytes length, then read N bytes and set
+// BytesWithUint32Prefix read 4 bytes as bytes length, then read N bytes and set
 // it to bytes.
-func (u *Unpacker) BytesWithUint32Perfix(bytes *[]byte) *Unpacker {
+func (u *Unpacker) BytesWithUint32Prefix(bytes *[]byte) *Unpacker {
 	return u.errFilter(func() {
 		var n uint32
 		n, u.err = u.ShiftUint32()
@@ -261,9 +262,9 @@ func (u *Unpacker) BytesWithUint32Perfix(bytes *[]byte) *Unpacker {
 	})
 }
 
-// BytesWithUint64Perfix read 8 bytes as bytes length, then read N bytes and set
+// BytesWithUint64Prefix read 8 bytes as bytes length, then read N bytes and set
 // it to bytes.
-func (u *Unpacker) BytesWithUint64Perfix(bytes *[]byte) *Unpacker {
+func (u *Unpacker) BytesWithUint64Prefix(bytes *[]byte) *Unpacker {
 	return u.errFilter(func() {
 		var n uint64
 		n, u.err = u.ShiftUint64()
@@ -276,4 +277,36 @@ func (u *Unpacker) errFilter(f func()) *Unpacker {
 		f()
 	}
 	return u
+}
+
+// Deprecated functions - see https://github.com/zhuangsirui/binpacker/issues/5
+
+func (u *Unpacker) StringWithUint16Perfix(s *string) *Unpacker {
+	fmt.Println("StringWithUint16Perfix deprecated - use StringWithUint16Prefix instead")
+	return u.StringWithUint16Prefix(s)
+}
+
+func (u *Unpacker) StringWithUint32Perfix(s *string) *Unpacker {
+	fmt.Println("StringWithUint32Perfix deprecated - use StringWithUint32Prefix instead")
+	return u.StringWithUint32Prefix(s)
+}
+
+func (u *Unpacker) StringWithUint64Perfix(s *string) *Unpacker {
+	fmt.Println("StringWithUint64Perfix deprecated - use StringWithUint64Prefix instead")
+	return u.StringWithUint64Prefix(s)
+}
+
+func (u *Unpacker) BytesWithUint16Perfix(bytes *[]byte) *Unpacker {
+	fmt.Println("BytesWithUint16Perfix deprecated - use BytesWithUint16Prefix instead")
+	return u.BytesWithUint16Prefix(bytes)
+}
+
+func (u *Unpacker) BytesWithUint32Perfix(bytes *[]byte) *Unpacker {
+	fmt.Println("BytesWithUint32Perfix deprecated - use BytesWithUint32Prefix instead")
+	return u.BytesWithUint32Prefix(bytes)
+}
+
+func (u *Unpacker) BytesWithUint64Perfix(bytes *[]byte) *Unpacker {
+	fmt.Println("BytesWithUint64Perfix deprecated - use BytesWithUint64Prefix instead")
+	return u.BytesWithUint64Prefix(bytes)
 }
