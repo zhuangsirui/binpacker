@@ -40,6 +40,13 @@ func (p *Packer) PushBytes(bytes []byte) *Packer {
 	})
 }
 
+// PushUint8 write a uint8 into writer.
+func (p *Packer) PushUint8(i uint8) *Packer {
+	return p.errFilter(func() {
+		_, p.err = p.writer.Write([]byte{byte(i)})
+	})
+}
+
 // PushUint16 write a uint16 into writer.
 func (p *Packer) PushUint16(i uint16) *Packer {
 	return p.errFilter(func() {

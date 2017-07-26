@@ -29,6 +29,16 @@ func TestShiftBytes(t *testing.T) {
 	assert.Equal(t, bs, []byte{0x01, 0x02}, "byte error.")
 }
 
+func TestShiftUint8(t *testing.T) {
+	buf := new(bytes.Buffer)
+	p := NewPacker(buf)
+	u := NewUnpacker(buf)
+	p.PushUint8(1)
+	i, err := u.ShiftUint8()
+	assert.Equal(t, err, nil, "Has error.")
+	assert.Equal(t, i, uint8(1), "uint16 error.")
+}
+
 func TestShiftUint16(t *testing.T) {
 	buf := new(bytes.Buffer)
 	p := NewPacker(buf)
@@ -149,6 +159,7 @@ func TestRead(t *testing.T) {
 	u := NewUnpacker(buf)
 	p.PushByte(0x01)
 	p.PushBytes([]byte("Hi"))
+	p.PushUint8(1)
 	p.PushUint16(1)
 	p.PushInt16(-1)
 	p.PushUint32(1)
@@ -158,6 +169,7 @@ func TestRead(t *testing.T) {
 	p.PushString("Hi")
 	var b byte
 	var bs []byte
+	var ui8 uint8
 	var ui16 uint16
 	var i16 int16
 	var ui32 uint32
@@ -167,6 +179,7 @@ func TestRead(t *testing.T) {
 	var s string
 	u.FetchByte(&b).
 		FetchBytes(2, &bs).
+		FetchUint8(&ui8).
 		FetchUint16(&ui16).
 		FetchInt16(&i16).
 		FetchUint32(&ui32).
@@ -178,6 +191,7 @@ func TestRead(t *testing.T) {
 	assert.Equal(t, u.Error(), nil, "Has Error.")
 	assert.Equal(t, b, byte(0x01), "byte error.")
 	assert.Equal(t, bs, []byte("Hi"), "bytes error.")
+	assert.Equal(t, ui8, uint8(1), "uint8 error.")
 	assert.Equal(t, ui16, uint16(1), "uint16 error.")
 	assert.Equal(t, i16, int16(-1), "int16 error.")
 	assert.Equal(t, ui32, uint32(1), "uint32 error.")

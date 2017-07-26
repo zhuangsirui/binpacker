@@ -83,6 +83,20 @@ func (u *Unpacker) FetchBytes(n uint64, bytes *[]byte) *Unpacker {
 	})
 }
 
+// ShiftUint8 fetch 1 byte in io.Reader and covert it to uint8
+func (u *Unpacker) ShiftUint8() (uint8, error) {
+	buffer := make([]byte, 1)
+	_, err := u.reader.Read(buffer)
+	return uint8(buffer[0]), err
+}
+
+// FetchUint8 read 1 byte, convert it to uint8 and set it to i.
+func (u *Unpacker) FetchUint8(i *uint8) *Unpacker {
+	return u.errFilter(func() {
+		*i, u.err = u.ShiftUint8()
+	})
+}
+
 // ShiftUint16 fetch 2 bytes in io.Reader and convert it to uint16.
 func (u *Unpacker) ShiftUint16() (uint16, error) {
 	buffer := make([]byte, 2)

@@ -4,8 +4,9 @@ import (
 	"bytes"
 	"testing"
 
-	"github.com/stretchr/testify/assert"
 	"math"
+
+	"github.com/stretchr/testify/assert"
 )
 
 func TestPushByte(t *testing.T) {
@@ -22,6 +23,14 @@ func TestPushBytes(t *testing.T) {
 	p.PushBytes([]byte{0x01, 0x002})
 	assert.Equal(t, p.Error(), nil, "Has error.")
 	assert.Equal(t, b.Bytes(), []byte{0x01, 0x02}, "bytes error.")
+}
+
+func TestPushUint8(t *testing.T) {
+	b := new(bytes.Buffer)
+	p := NewPacker(b)
+	p.PushUint8(1)
+	assert.Equal(t, p.Error(), nil, "Has error.")
+	assert.Equal(t, b.Bytes(), []byte{1}, "uint8 error.")
 }
 
 func TestPushUint16(t *testing.T) {
