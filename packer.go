@@ -17,8 +17,13 @@ type Packer struct {
 func NewPacker(writer io.Writer) *Packer {
 	return &Packer{
 		writer: writer,
-		endian: binary.LittleEndian,
+		endian: binary.BigEndian,
 	}
+}
+
+// SetByteOrder can set BigEndian or LittleEndian for packer
+func (p *Packer) SetByteOrder(byteOrder binary.ByteOrder) {
+	p.endian = byteOrder
 }
 
 // Error returns an error if any errors exists

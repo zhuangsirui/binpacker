@@ -20,8 +20,13 @@ type Unpacker struct {
 func NewUnpacker(reader io.Reader) *Unpacker {
 	return &Unpacker{
 		reader: reader,
-		endian: binary.LittleEndian,
+		endian: binary.BigEndian,
 	}
+}
+
+// SetByteOrder can set BigEndian or LittleEndian for unpacker
+func (p *Unpacker) SetByteOrder(byteOrder binary.ByteOrder) {
+	p.endian = byteOrder
 }
 
 // Error returns an error if any errors exists
