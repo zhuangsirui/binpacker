@@ -38,7 +38,7 @@ func TestPushUint16(t *testing.T) {
 	p := NewPacker(b)
 	p.PushUint16(1)
 	assert.Equal(t, p.Error(), nil, "Has error.")
-	assert.Equal(t, b.Bytes(), []byte{1, 0}, "uint16 error.")
+	assert.Equal(t, b.Bytes(), []byte{0, 1}, "uint16 error.")
 }
 
 func TestPushInt16(t *testing.T) {
@@ -54,7 +54,7 @@ func TestPushUint32(t *testing.T) {
 	p := NewPacker(b)
 	p.PushUint32(1)
 	assert.Equal(t, p.Error(), nil, "Has error.")
-	assert.Equal(t, b.Bytes(), []byte{1, 0, 0, 0}, "uint32 error.")
+	assert.Equal(t, b.Bytes(), []byte{0, 0, 0, 1}, "uint32 error.")
 }
 
 func TestPushInt32(t *testing.T) {
@@ -70,7 +70,7 @@ func TestPushUint64(t *testing.T) {
 	p := NewPacker(b)
 	p.PushUint64(1)
 	assert.Equal(t, p.Error(), nil, "Has error.")
-	assert.Equal(t, b.Bytes(), []byte{1, 0, 0, 0, 0, 0, 0, 0}, "uint64 error.")
+	assert.Equal(t, b.Bytes(), []byte{0, 0, 0, 0, 0, 0, 0, 1}, "uint64 error.")
 }
 
 func TestPushInt64(t *testing.T) {
@@ -86,7 +86,7 @@ func TestPushFloat32(t *testing.T) {
 	p := NewPacker(b)
 	p.PushFloat32(math.SmallestNonzeroFloat32)
 	assert.Equal(t, p.Error(), nil, "Has error.")
-	assert.Equal(t, b.Bytes(), []byte{1, 0, 0, 0}, "float32 error.")
+	assert.Equal(t, b.Bytes(), []byte{0, 0, 0, 1}, "float32 error.")
 }
 
 func TestPushFloat64(t *testing.T) {
@@ -94,7 +94,7 @@ func TestPushFloat64(t *testing.T) {
 	p := NewPacker(b)
 	p.PushFloat64(math.SmallestNonzeroFloat64)
 	assert.Equal(t, p.Error(), nil, "Has error.")
-	assert.Equal(t, b.Bytes(), []byte{1, 0, 0, 0, 0, 0, 0, 0}, "float64 error.")
+	assert.Equal(t, b.Bytes(), []byte{0, 0, 0, 0, 0, 0, 0, 1}, "float64 error.")
 }
 
 func TestPushString(t *testing.T) {
@@ -110,5 +110,5 @@ func TestCombinedPush(t *testing.T) {
 	p := NewPacker(b)
 	p.PushUint16(1).PushString("Hi")
 	assert.Equal(t, p.Error(), nil, "Has error.")
-	assert.Equal(t, b.Bytes(), []byte{1, 0, 'H', 'i'}, "combine push error.")
+	assert.Equal(t, b.Bytes(), []byte{0, 1, 'H', 'i'}, "combine push error.")
 }
