@@ -1,7 +1,6 @@
 package binpacker
 
 import (
-	"bytes"
 	"encoding/binary"
 	"fmt"
 	"io"
@@ -52,33 +51,9 @@ func (u *Unpacker) FetchByte(b *byte) *Unpacker {
 // ShiftBytes fetch n bytes in io.Reader. Returns a byte array and an error if
 // exists.
 func (u *Unpacker) ShiftBytes(_n uint64) ([]byte, error) {
-	var buffer bytes.Buffer
-	n := int(_n)
-	size := 32 * 1024
-	var buf []byte
-	var rn = 0
-	var err error
-	for {
-		if n == 0 {
-			break
-		} else if n < size {
-			buf = make([]byte, n)
-		} else {
-			buf = make([]byte, size)
-		}
-		rn, err = u.reader.Read(buf)
-		n -= rn
-		if rn > 0 {
-			buffer.Write(buf)
-		}
-		if err == io.EOF {
-			break
-		}
-		if err != nil {
-			break
-		}
-	}
-	return buffer.Bytes(), err
+	buf := make([]byte, _n)
+	_, err := io.ReadFull(u.reader, buf)
+	return buf, err
 }
 
 // FetchBytes read n bytes and set to bytes.

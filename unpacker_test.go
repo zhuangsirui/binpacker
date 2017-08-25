@@ -2,12 +2,36 @@ package binpacker
 
 import (
 	"bytes"
+	"io"
 	"testing"
 
 	"math"
 
 	"github.com/stretchr/testify/assert"
 )
+
+// TestReader wraps a []byte and returns reads of a specific length.
+// slightly modified version of one in https://golang.org/src/bufio/bufio_test.go
+type testReader struct {
+	data   []byte
+	stride int
+}
+
+func (t *testReader) Read(buf []byte) (n int, err error) {
+	n = t.stride
+	if n > len(t.data) {
+		n = len(t.data)
+	}
+	if n > len(buf) {
+		n = len(buf)
+	}
+	copy(buf, t.data[:n])
+	t.data = t.data[n:]
+	if len(t.data) == 0 {
+		err = io.EOF
+	}
+	return
+}
 
 func TestShiftByte(t *testing.T) {
 	buf := new(bytes.Buffer)
@@ -20,13 +44,15 @@ func TestShiftByte(t *testing.T) {
 }
 
 func TestShiftBytes(t *testing.T) {
-	buf := new(bytes.Buffer)
-	p := NewPacker(buf)
-	u := NewUnpacker(buf)
-	p.PushBytes([]byte{0x01, 0x02})
-	bs, err := u.ShiftBytes(2)
-	assert.Equal(t, err, nil, "Has error.")
-	assert.Equal(t, bs, []byte{0x01, 0x02}, "byte error.")
+	reader := &testReader{
+		data:   []byte{0x01, 0x02, 0x03, 0x04, 0x05},
+		stride: 2,
+	}
+
+	u := NewUnpacker(reader)
+	bs, err := u.ShiftBytes(5)
+	assert.NoError(t, err)
+	assert.Equal(t, []byte{0x01, 0x02, 0x03, 0x04, 0x05}, bs, "byte error.")
 }
 
 func TestShiftUint8(t *testing.T) {
