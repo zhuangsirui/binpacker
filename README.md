@@ -13,7 +13,7 @@ go get github.com/zhuangsirui/binpacker
 
 ```go
 buffer := new(bytes.Buffer)
-packer := binpacker.NewPacker(buffer)
+packer := binpacker.NewPacker(binary.BigEndian, buffer)
 packer.PushByte(0x01)
 packer.PushBytes([]byte{0x02, 0x03})
 packer.PushUint16(math.MaxUint16)
@@ -22,7 +22,7 @@ packer.PushUint16(math.MaxUint16)
 ```go
 // You can push data like this
 buffer := new(bytes.Buffer)
-packer := binpacker.NewPacker(buffer)
+packer := binpacker.NewPacker(binary.BigEndian, buffer)
 packer.PushByte(0x01).PushBytes([]byte{0x02, 0x03}).PushUint16(math.MaxUint16)
 packer.Error() // Make sure error is nil
 ```
@@ -33,8 +33,8 @@ packer.Error() // Make sure error is nil
 
 ```go
 buffer := new(bytes.Buffer)
-packer := binpacker.NewPacker(buffer)
-unpacker := binpacker.NewUnpacker(buffer)
+packer := binpacker.NewPacker(binary.BigEndian, buffer)
+unpacker := binpacker.NewUnpacker(binary.BigEndian, buffer)
 packer.PushByte(0x01)
 packer.PushUint16(math.MaxUint16)
 ```

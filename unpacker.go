@@ -15,17 +15,12 @@ type Unpacker struct {
 	err    error
 }
 
-// NewUnpacker returns a *Unpacker which hold an io.Reader.
-func NewUnpacker(reader io.Reader) *Unpacker {
+// NewUnpacker returns a *Unpacker which hold an io.Reader. User must provide the byte order explicitly.
+func NewUnpacker(endian binary.ByteOrder, reader io.Reader) *Unpacker {
 	return &Unpacker{
 		reader: reader,
-		endian: binary.BigEndian,
+		endian: endian,
 	}
-}
-
-// SetByteOrder can set BigEndian or LittleEndian for unpacker
-func (p *Unpacker) SetByteOrder(byteOrder binary.ByteOrder) {
-	p.endian = byteOrder
 }
 
 // Error returns an error if any errors exists

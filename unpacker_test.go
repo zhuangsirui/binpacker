@@ -8,6 +8,7 @@ import (
 	"math"
 
 	"github.com/stretchr/testify/assert"
+	"encoding/binary"
 )
 
 // TestReader wraps a []byte and returns reads of a specific length.
@@ -35,8 +36,8 @@ func (t *testReader) Read(buf []byte) (n int, err error) {
 
 func TestShiftByte(t *testing.T) {
 	buf := new(bytes.Buffer)
-	p := NewPacker(buf)
-	u := NewUnpacker(buf)
+	p := NewPacker(binary.BigEndian, buf)
+	u := NewUnpacker(binary.BigEndian, buf)
 	p.PushByte(0x01)
 	b, err := u.ShiftByte()
 	assert.Equal(t, err, nil, "Has error.")
@@ -49,7 +50,7 @@ func TestShiftBytes(t *testing.T) {
 		stride: 2,
 	}
 
-	u := NewUnpacker(reader)
+	u := NewUnpacker(binary.BigEndian, reader)
 	bs, err := u.ShiftBytes(5)
 	assert.NoError(t, err)
 	assert.Equal(t, []byte{0x01, 0x02, 0x03, 0x04, 0x05}, bs, "byte error.")
@@ -57,8 +58,8 @@ func TestShiftBytes(t *testing.T) {
 
 func TestShiftUint8(t *testing.T) {
 	buf := new(bytes.Buffer)
-	p := NewPacker(buf)
-	u := NewUnpacker(buf)
+	p := NewPacker(binary.BigEndian, buf)
+	u := NewUnpacker(binary.BigEndian, buf)
 	p.PushUint8(1)
 	i, err := u.ShiftUint8()
 	assert.Equal(t, err, nil, "Has error.")
@@ -67,8 +68,8 @@ func TestShiftUint8(t *testing.T) {
 
 func TestShiftUint16(t *testing.T) {
 	buf := new(bytes.Buffer)
-	p := NewPacker(buf)
-	u := NewUnpacker(buf)
+	p := NewPacker(binary.BigEndian, buf)
+	u := NewUnpacker(binary.BigEndian, buf)
 	p.PushUint16(1)
 	i, err := u.ShiftUint16()
 	assert.Equal(t, err, nil, "Has error.")
@@ -77,8 +78,8 @@ func TestShiftUint16(t *testing.T) {
 
 func TestShiftInt16(t *testing.T) {
 	buf := new(bytes.Buffer)
-	p := NewPacker(buf)
-	u := NewUnpacker(buf)
+	p := NewPacker(binary.BigEndian, buf)
+	u := NewUnpacker(binary.BigEndian, buf)
 	p.PushInt16(-1)
 	i, err := u.ShiftInt16()
 	assert.Equal(t, err, nil, "Has error.")
@@ -87,8 +88,8 @@ func TestShiftInt16(t *testing.T) {
 
 func TestShiftUint32(t *testing.T) {
 	buf := new(bytes.Buffer)
-	p := NewPacker(buf)
-	u := NewUnpacker(buf)
+	p := NewPacker(binary.BigEndian, buf)
+	u := NewUnpacker(binary.BigEndian, buf)
 	p.PushUint32(1)
 	i, err := u.ShiftUint32()
 	assert.Equal(t, err, nil, "Has error.")
@@ -97,8 +98,8 @@ func TestShiftUint32(t *testing.T) {
 
 func TestShiftInt32(t *testing.T) {
 	buf := new(bytes.Buffer)
-	p := NewPacker(buf)
-	u := NewUnpacker(buf)
+	p := NewPacker(binary.BigEndian, buf)
+	u := NewUnpacker(binary.BigEndian, buf)
 	p.PushInt32(-1)
 	i, err := u.ShiftInt32()
 	assert.Equal(t, err, nil, "Has error.")
@@ -107,8 +108,8 @@ func TestShiftInt32(t *testing.T) {
 
 func TestShiftUint64(t *testing.T) {
 	buf := new(bytes.Buffer)
-	p := NewPacker(buf)
-	u := NewUnpacker(buf)
+	p := NewPacker(binary.BigEndian, buf)
+	u := NewUnpacker(binary.BigEndian, buf)
 	p.PushUint64(1)
 	i, err := u.ShiftUint64()
 	assert.Equal(t, err, nil, "Has error.")
@@ -117,8 +118,8 @@ func TestShiftUint64(t *testing.T) {
 
 func TestShiftFloat32(t *testing.T) {
 	buf := new(bytes.Buffer)
-	p := NewPacker(buf)
-	u := NewUnpacker(buf)
+	p := NewPacker(binary.BigEndian, buf)
+	u := NewUnpacker(binary.BigEndian, buf)
 	p.PushFloat32(math.SmallestNonzeroFloat32)
 	i, err := u.ShiftFloat32()
 	assert.Equal(t, err, nil, "Has error.")
@@ -131,8 +132,8 @@ func TestShiftFloat32(t *testing.T) {
 
 func TestShiftFloat64(t *testing.T) {
 	buf := new(bytes.Buffer)
-	p := NewPacker(buf)
-	u := NewUnpacker(buf)
+	p := NewPacker(binary.BigEndian, buf)
+	u := NewUnpacker(binary.BigEndian, buf)
 	p.PushFloat64(math.SmallestNonzeroFloat64)
 	i, err := u.ShiftFloat64()
 	assert.Equal(t, err, nil, "Has error.")
@@ -141,8 +142,8 @@ func TestShiftFloat64(t *testing.T) {
 
 func TestFetchFloat32(t *testing.T) {
 	buf := new(bytes.Buffer)
-	p := NewPacker(buf)
-	u := NewUnpacker(buf)
+	p := NewPacker(binary.BigEndian, buf)
+	u := NewUnpacker(binary.BigEndian, buf)
 	p.PushFloat32(math.SmallestNonzeroFloat32)
 	var f float32
 	u.FetchFloat32(&f)
@@ -151,8 +152,8 @@ func TestFetchFloat32(t *testing.T) {
 
 func TestFetchFloat64(t *testing.T) {
 	buf := new(bytes.Buffer)
-	p := NewPacker(buf)
-	u := NewUnpacker(buf)
+	p := NewPacker(binary.BigEndian, buf)
+	u := NewUnpacker(binary.BigEndian, buf)
 	p.PushFloat64(math.SmallestNonzeroFloat64)
 	var f float64
 	u.FetchFloat64(&f)
@@ -161,8 +162,8 @@ func TestFetchFloat64(t *testing.T) {
 
 func TestShiftInt64(t *testing.T) {
 	buf := new(bytes.Buffer)
-	p := NewPacker(buf)
-	u := NewUnpacker(buf)
+	p := NewPacker(binary.BigEndian, buf)
+	u := NewUnpacker(binary.BigEndian, buf)
 	p.PushInt64(-1)
 	i, err := u.ShiftInt64()
 	assert.Equal(t, err, nil, "Has error.")
@@ -171,8 +172,8 @@ func TestShiftInt64(t *testing.T) {
 
 func TestShiftString(t *testing.T) {
 	buf := new(bytes.Buffer)
-	p := NewPacker(buf)
-	u := NewUnpacker(buf)
+	p := NewPacker(binary.BigEndian, buf)
+	u := NewUnpacker(binary.BigEndian, buf)
 	p.PushString("Hi")
 	s, err := u.ShiftString(2)
 	assert.Equal(t, err, nil, "Has error.")
@@ -181,8 +182,8 @@ func TestShiftString(t *testing.T) {
 
 func TestRead(t *testing.T) {
 	buf := new(bytes.Buffer)
-	p := NewPacker(buf)
-	u := NewUnpacker(buf)
+	p := NewPacker(binary.BigEndian, buf)
+	u := NewUnpacker(binary.BigEndian, buf)
 	p.PushByte(0x01)
 	p.PushBytes([]byte("Hi"))
 	p.PushUint8(1)
@@ -229,8 +230,8 @@ func TestRead(t *testing.T) {
 
 func TestReadWithPerfix(t *testing.T) {
 	buf := new(bytes.Buffer)
-	p := NewPacker(buf)
-	u := NewUnpacker(buf)
+	p := NewPacker(binary.BigEndian, buf)
+	u := NewUnpacker(binary.BigEndian, buf)
 	var bs []byte
 	var s string
 

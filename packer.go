@@ -13,17 +13,12 @@ type Packer struct {
 	err    error
 }
 
-// NewPacker returns a *Packer hold an io.Writer.
-func NewPacker(writer io.Writer) *Packer {
+// NewPacker returns a *Packer hold an io.Writer. User must provide the byte order explicitly.
+func NewPacker(endian binary.ByteOrder, writer io.Writer) *Packer {
 	return &Packer{
 		writer: writer,
-		endian: binary.BigEndian,
+		endian: endian,
 	}
-}
-
-// SetByteOrder can set BigEndian or LittleEndian for packer
-func (p *Packer) SetByteOrder(byteOrder binary.ByteOrder) {
-	p.endian = byteOrder
 }
 
 // Error returns an error if any errors exists
