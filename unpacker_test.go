@@ -7,8 +7,8 @@ import (
 
 	"math"
 
-	"github.com/stretchr/testify/assert"
 	"encoding/binary"
+	"github.com/stretchr/testify/assert"
 )
 
 // TestReader wraps a []byte and returns reads of a specific length.
