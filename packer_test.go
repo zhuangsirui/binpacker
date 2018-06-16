@@ -6,8 +6,8 @@ import (
 
 	"math"
 
-	"github.com/stretchr/testify/assert"
 	"encoding/binary"
+	"github.com/stretchr/testify/assert"
 )
 
 func TestPushByte(t *testing.T) {
