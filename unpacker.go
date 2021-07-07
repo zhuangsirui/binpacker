@@ -32,7 +32,7 @@ func (u *Unpacker) Error() error {
 // exists.
 func (u *Unpacker) ShiftByte() (byte, error) {
 	buffer := make([]byte, 1)
-	_, err := u.reader.Read(buffer)
+	_, err := io.ReadFull(u.reader, buffer)
 	return buffer[0], err
 }
 
@@ -61,8 +61,8 @@ func (u *Unpacker) FetchBytes(n uint64, bytes *[]byte) *Unpacker {
 // ShiftUint8 fetch 1 byte in io.Reader and covert it to uint8
 func (u *Unpacker) ShiftUint8() (uint8, error) {
 	buffer := make([]byte, 1)
-	_, err := u.reader.Read(buffer)
-	return uint8(buffer[0]), err
+	_, err := io.ReadFull(u.reader, buffer)
+	return buffer[0], err
 }
 
 // FetchUint8 read 1 byte, convert it to uint8 and set it to i.
@@ -75,7 +75,7 @@ func (u *Unpacker) FetchUint8(i *uint8) *Unpacker {
 // ShiftUint16 fetch 2 bytes in io.Reader and convert it to uint16.
 func (u *Unpacker) ShiftUint16() (uint16, error) {
 	buffer := make([]byte, 2)
-	if _, err := u.reader.Read(buffer); err != nil {
+	if _, err := io.ReadFull(u.reader, buffer); err != nil {
 		return 0, err
 	}
 	return u.endian.Uint16(buffer), nil
@@ -102,7 +102,7 @@ func (u *Unpacker) FetchInt16(i *int16) *Unpacker {
 // ShiftUint32 fetch 4 bytes in io.Reader and convert it to uint32.
 func (u *Unpacker) ShiftUint32() (uint32, error) {
 	buffer := make([]byte, 4)
-	if _, err := u.reader.Read(buffer); err != nil {
+	if _, err := io.ReadFull(u.reader, buffer); err != nil {
 		return 0, err
 	}
 	return u.endian.Uint32(buffer), nil
@@ -129,7 +129,7 @@ func (u *Unpacker) FetchInt32(i *int32) *Unpacker {
 // ShiftUint64 fetch 8 bytes in io.Reader and convert it to uint64.
 func (u *Unpacker) ShiftUint64() (uint64, error) {
 	buffer := make([]byte, 8)
-	if _, err := u.reader.Read(buffer); err != nil {
+	if _, err := io.ReadFull(u.reader, buffer); err != nil {
 		return 0, err
 	}
 	return u.endian.Uint64(buffer), nil
@@ -156,7 +156,7 @@ func (u *Unpacker) FetchInt64(i *int64) *Unpacker {
 // ShiftFloat32 fetch 4 bytes in io.Reader and convert it to float32.
 func (u *Unpacker) ShiftFloat32() (float32, error) {
 	buffer := make([]byte, 4)
-	if _, err := u.reader.Read(buffer); err != nil {
+	if _, err := io.ReadFull(u.reader, buffer); err != nil {
 		return 0, err
 	}
 	return math.Float32frombits(u.endian.Uint32(buffer)), nil
@@ -165,7 +165,7 @@ func (u *Unpacker) ShiftFloat32() (float32, error) {
 // ShiftFloat64 fetch 8 bytes in io.Reader and convert it to float64.
 func (u *Unpacker) ShiftFloat64() (float64, error) {
 	buffer := make([]byte, 8)
-	if _, err := u.reader.Read(buffer); err != nil {
+	if _, err := io.ReadFull(u.reader, buffer); err != nil {
 		return 0, err
 	}
 	return math.Float64frombits(u.endian.Uint64(buffer)), nil
@@ -188,7 +188,7 @@ func (u *Unpacker) FetchFloat64(i *float64) *Unpacker {
 // ShiftString fetch n bytes, convert it to string. Returns string and an error.
 func (u *Unpacker) ShiftString(n uint64) (string, error) {
 	buffer := make([]byte, n)
-	if _, err := u.reader.Read(buffer); err != nil {
+	if _, err := io.ReadFull(u.reader, buffer); err != nil {
 		return "", err
 	}
 	return string(buffer), nil
